@@ -29,7 +29,7 @@ Source1: qtlogging.ini
 # macros
 Source10: macros.qt6-qtbase
 
-Patch0:   0001-workaround-sb2-filecopy-bug.patch
+#Patch0:   0001-workaround-sb2-filecopy-bug.patch
 
 BuildRequires: clang
 BuildRequires: make
@@ -139,6 +139,10 @@ popd
 touch .git
 
 %cmake_qt6 \
+%ifarch %{arm}
+ -DCMAKE_C_FLAGS="$CFLAGS -fno-integrated-as" \
+ -DCMAKE_CXX_FLAGS="$CXXFLAGS -fno-integrated-as" \
+%endif
  -DQT_FEATURE_accessibility=ON \
  -DQT_FEATURE_fontconfig=ON \
  -DQT_FEATURE_glib=ON \
